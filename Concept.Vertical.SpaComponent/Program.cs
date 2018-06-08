@@ -28,7 +28,7 @@ namespace Concept.Vertical.SpaComponent
 
     public static IWebHost CreateSpaHost(string[] args) =>
       WebHost.CreateDefaultBuilder(args)
-        .UseStartup<Startup>()
+        .UseStartup<SpaStartup>()
         .UseUrls("http://localhost:5000")
         .Build();
 
@@ -41,7 +41,7 @@ namespace Concept.Vertical.SpaComponent
         })
         .UseStartup<Web.Startup>()
         .UseUrls("http://localhost:5001")
-        .UseContentRoot(@"D:\Code\Github\dotnet-concept-vertical\Concept.Vertical.Web")
+        .UseContentRoot(@"c:\Code\Github\dotnet-concept-vertical\Concept.Vertical.Web")
         .Build();
 
     public static IHost CreateReadHost(string[] args) =>

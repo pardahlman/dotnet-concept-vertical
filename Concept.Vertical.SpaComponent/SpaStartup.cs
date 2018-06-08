@@ -7,9 +7,9 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Concept.Vertical.SpaComponent
 {
-  public class Startup
+  public class SpaStartup
   {
-    public Startup(IConfiguration configuration)
+    public SpaStartup(IConfiguration configuration)
     {
       Configuration = configuration;
     }

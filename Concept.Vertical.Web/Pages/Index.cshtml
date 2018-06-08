@@ -6,9 +6,17 @@
 </head>
 <body>
     <p>Hello</p>
-    <div id="root"></div>
+    @foreach (var domId in Model.ComponentDomIds)
+    {
+        <div id="@domId"></div>
+    }
+
     <script type="text/javascript" src="~/signalr.min.js"></script>
     <script type="text/javascript" src="~/webSocket.js"></script>
-    <script type="text/javascript" src="http://localhost:5000/static/js/bundle.js"></script>
+
+    @foreach (var scriptSrc in Model.ComponentScriptSrc)
+    {
+        <script type="text/javascript" src="@scriptSrc"></script>
+    }
 </body>
 </html>
