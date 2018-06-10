@@ -28,7 +28,7 @@ namespace Concept.Vertical.SpaComponent
       app.UseSpaStaticFiles();
       app.UseSpa(spa =>
       {
-        spa.Options.SourcePath = "ClientApp";
+        spa.Options.SourcePath = $"{env.ContentRootPath}\\ClientApp";
         if (env.IsDevelopment())
         {
           spa.UseReactDevelopmentServer(npmScript: "start");

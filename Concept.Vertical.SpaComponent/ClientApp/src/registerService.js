@@ -1,1 +1,4 @@
-export default window.register;
+const publish = window.publish;
+const register = window.register;
+
+export {publish, register }

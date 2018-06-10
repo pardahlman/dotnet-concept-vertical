@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import register from "./registerService";
+import { register, publish} from "./registerService";
 
+const sendStopCommand = (e) => {
+  console.log('stop');
+  publish({"stop": true});
+}
 
 export class App extends Component {
 
@@ -35,6 +39,8 @@ export class App extends Component {
     );
   }
 
+
+
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
@@ -43,6 +49,7 @@ export class App extends Component {
     return (
       <div>
         <h1>Weather forecast!</h1>
+        <button onClick={sendStopCommand}>Stop</button>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>

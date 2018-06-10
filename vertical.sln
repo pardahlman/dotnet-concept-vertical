@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concept.Vertical.ReadCompon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concept.Vertical.Web", "Concept.Vertical.Web\Concept.Vertical.Web.csproj", "{C3F99A50-5262-4CEA-B972-AB46E09D5676}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Concept.Vertical.Messaging.InMemory", "Concept.Vertical.Messaging.InMemory\Concept.Vertical.Messaging.InMemory.csproj", "{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{C3F99A50-5262-4CEA-B972-AB46E09D5676}.Release|x64.Build.0 = Release|Any CPU
 		{C3F99A50-5262-4CEA-B972-AB46E09D5676}.Release|x86.ActiveCfg = Release|Any CPU
 		{C3F99A50-5262-4CEA-B972-AB46E09D5676}.Release|x86.Build.0 = Release|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Debug|x64.Build.0 = Debug|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Release|x64.ActiveCfg = Release|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Release|x64.Build.0 = Release|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{6ACF271D-3977-4058-A509-D2D1A6C4CAFC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

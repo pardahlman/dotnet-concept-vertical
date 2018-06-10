@@ -19,14 +19,20 @@ namespace Concept.Vertical.Tests
     [Fact]
     public async Task Should_Post_Stop_Command_When_Clicking_Stop()
     {
+      var stopTask =  _webhostComponent.Intercept<StopCommand>();
+
       var stopRecieved = new TaskCompletionSource<StopCommand>();
       await _webhostComponent.Intercept<StopCommand>(stop => stopRecieved.TrySetResult(stop));
 
+      await _webhostComponent.Intercept<StopCommand, WeatherStopped>((stopCommand, token) => Task.FromResult(new WeatherStopped()));
+
       // TODO: Setup Selenium
 
-      await stopRecieved.Task;
+      await stopTask;
 
       Assert.NotNull(stopRecieved.Task.Result);
     }
   }
+
+  public class WeatherStopped { }
 }

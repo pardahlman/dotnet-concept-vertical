@@ -1,8 +1,9 @@
 using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Concept.Vertical.Messaging;
 using Concept.Vertical.ReadComponent;
+using Concept.Vertical.ReadComponent.Domain;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,11 +17,9 @@ namespace Concept.Vertical.SpaComponent
     {
       var spaHost = CreateSpaHost(args);
       var applicationHost = CreateApplicationHost(args);
-      var readHost = CreateReadHost(args);
       await Task.WhenAll(
         spaHost.StartAsync(),
-        applicationHost.StartAsync(),
-        readHost.StartAsync()
+        applicationHost.StartAsync()
       );
 
       await Task.Delay(TimeSpan.FromHours(1));
@@ -38,10 +37,12 @@ namespace Concept.Vertical.SpaComponent
         {
           collection.AddSingleton<IMessagePublisher>(InMemoryMessageBus.Instance);
           collection.AddSingleton<IMessageSubscriber>(InMemoryMessageBus.Instance);
+          collection.AddSingleton<ITypeIdentifierMap>(new TypeIdentifierMap(new Dictionary<string, Type> { { nameof(StopCommand), typeof(StopCommand) } }));
         })
         .UseStartup<Web.Startup>()
         .UseUrls("http://localhost:5001")
-        .UseContentRoot(@"c:\Code\Github\dotnet-concept-vertical\Concept.Vertical.Web")
+        .UseContentRoot(@"d:\Code\Github\dotnet-concept-vertical\Concept.Vertical.Web")
+        .RegisterLogicalComponent<WeatherUpdateService>()
         .Build();
 
     public static IHost CreateReadHost(string[] args) =>

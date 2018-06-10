@@ -1,10 +1,5 @@
 const registrations = {};
 
-window.register = (routingKey, callback) => {
-  registrations[routingKey] = registrations[routingKey] || [];
-  registrations[routingKey].push(callback);
-};
-
 const connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Debug)
   .withUrl('/application')
@@ -19,5 +14,14 @@ connection
         return;
       }
       callbacks.forEach(callback => callback(message.payload));
-    })
-  });
+    });
+    });
+
+window.register = (routingKey, callback) => {
+    registrations[routingKey] = registrations[routingKey] || [];
+    registrations[routingKey].push(callback);
+};
+
+window.publish = (msg) => {
+    connection.invoke('publishData', msg);
+}

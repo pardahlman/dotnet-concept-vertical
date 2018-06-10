@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Concept.Vertical.ReadComponent.Domain;
 
-namespace Concept.Vertical.Tests.Framework
+namespace Concept.Vertical
 {
   public interface ITypeIdentifierMap
   {
@@ -11,11 +10,12 @@ namespace Concept.Vertical.Tests.Framework
 
   public class TypeIdentifierMap : ITypeIdentifierMap
   {
-    // TODO: Use attribute mapping
-    private static readonly IDictionary<string, Type> _knownTypes = new Dictionary<string, Type>
+    private readonly IDictionary<string, Type> _knownTypes;
+
+    public TypeIdentifierMap(IDictionary<string,Type> knownTypes)
     {
-      {nameof(StopCommand), typeof(StopCommand)}
-    };
+      _knownTypes = knownTypes;
+    }
 
     public bool TryGetType(string identifier, out Type type) => _knownTypes.TryGetValue(identifier, out type);
   }

@@ -41,8 +41,7 @@ namespace Concept.Vertical.Tests.Framework
     {
       collection
         .AddSingleton<IMessagePublisher>(InMemoryMessageBus.Instance)
-        .AddSingleton<IMessageSubscriber>(InMemoryMessageBus.Instance)
-        .AddSingleton<ITypeIdentifierMap>(new TypeIdentifierMap());
+        .AddSingleton<IMessageSubscriber>(InMemoryMessageBus.Instance);
     }
 
     // TODO: Select port based on something

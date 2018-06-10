@@ -12,6 +12,7 @@ namespace Concept.Vertical.Messaging
     private ConcurrentDictionary<Type, List<Func<object, CancellationToken, Task>>> _messageHandlers = new ConcurrentDictionary<Type, List<Func<object, CancellationToken, Task>>>();
 
     private static InMemoryMessageBus _instance;
+    private static ITypeIdentifierMap _map;
 
     public static InMemoryMessageBus Instance
     {
@@ -20,6 +21,11 @@ namespace Concept.Vertical.Messaging
         _instance = _instance ?? new InMemoryMessageBus();
         return _instance;
       }
+    }
+
+    public static void RegisterTypeIdentifier(ITypeIdentifierMap map)
+    {
+      _map = map;
     }
 
     private InMemoryMessageBus()
@@ -44,6 +50,11 @@ namespace Concept.Vertical.Messaging
 
     public Task PublishAsync<TMessage>(TMessage message, CancellationToken token)
     {
+      if (message is UnparsedMessage unparsed && _map.TryGetType(unparsed.PayloadType, out var messageType))
+      {
+        
+      }
+
       if(!_messageHandlers.TryGetValue(typeof(TMessage), out var handlers))
       {
         return Task.CompletedTask;

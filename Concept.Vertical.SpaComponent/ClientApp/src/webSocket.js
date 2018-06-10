@@ -20,6 +20,7 @@ connection
       if(!callbacks){
         return;
       }
+
       callbacks.forEach(callback => callback(message.payload));
     })
   });

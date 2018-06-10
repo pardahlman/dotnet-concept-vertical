@@ -8,6 +8,13 @@ namespace Concept.Vertical.Tests.Framework
 {
   public static class WebhostInterceptExtension
   {
+    public static Task<TMessage> Intercept<TMessage>(this IWebhostFixture fixture)
+    {
+      var messageCompletionSource = new TaskCompletionSource<TMessage>();
+      fixture.Intercept<TMessage>(message => messageCompletionSource.TrySetResult(message));
+      return messageCompletionSource.Task;
+    }
+
     public static Task Intercept<TMessage>(this IWebhostFixture fixture, Action<TMessage> interceptor)
     {
       return fixture.Intercept<TMessage>((message, token) =>
