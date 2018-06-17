@@ -1,17 +1,18 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Concept.Vertical.Messaging;
+using Concept.Vertical.Abstractions;
+using Concept.Vertical.Messaging.Abstractions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using IApplicationLifetime = Microsoft.AspNetCore.Hosting.IApplicationLifetime;
 
-namespace Concept.Vertical.SpaComponent
+namespace Concept.Vertical.Hosting
 {
   public static class UseLogicalComponentExtension
   {
-    private class DisposableHostedService<THosted> : IHostedService, IDisposable where THosted : IHostedService
+    private class DisposableHostedService<THosted> : IHostedService, IDisposable where THosted : ILogicalComponent
     {
       private readonly IServiceCollection _componentServices;
       private ServiceProvider _provider;
@@ -39,7 +40,7 @@ namespace Concept.Vertical.SpaComponent
     }
 
     public static IWebHostBuilder RegisterLogicalComponent<TLogicalComponent>(this IWebHostBuilder builder, Action<IServiceCollection> componentServices = null)
-      where TLogicalComponent : class, IHostedService
+      where TLogicalComponent : class, ILogicalComponent
     {
       builder
         .ConfigureServices(applicationCollection=> applicationCollection

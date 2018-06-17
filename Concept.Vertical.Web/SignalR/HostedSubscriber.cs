@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Concept.Vertical.Messaging;
+using Concept.Vertical.Messaging.Abstractions;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Hosting;
 

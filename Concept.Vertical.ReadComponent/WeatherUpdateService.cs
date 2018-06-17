@@ -2,14 +2,18 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Concept.Vertical.Abstractions;
 using Concept.Vertical.Messaging;
-using Microsoft.Extensions.Hosting;
+using Concept.Vertical.Messaging.Abstractions;
+using Concept.Vertical.ReadComponent.Domain;
 
 namespace Concept.Vertical.ReadComponent
 {
-  public class WeatherUpdateService : IHostedService
+  public class WeatherUpdateService : ILogicalComponent
   {
     private readonly IMessagePublisher _publisher;
+    private readonly IMessageSubscriber _subscriber;
+    private bool active = true;
 
     private static readonly string[] Summaries = {
       "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -17,15 +21,23 @@ namespace Concept.Vertical.ReadComponent
 
     private CancellationTokenSource _cancellationSource;
 
-    public WeatherUpdateService(IMessagePublisher publisher)
+    public WeatherUpdateService(IMessagePublisher publisher, IMessageSubscriber subscriber)
     {
       _publisher = publisher;
+      _subscriber = subscriber;
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
       _cancellationSource = new CancellationTokenSource();
-      Task.Run(async () =>
+
+      await _subscriber.SubscribeAsync<ToggleWeatherUpdates>((updates, token) =>
+      {
+        active = !active;
+        return Task.CompletedTask;
+      }, _cancellationSource.Token);
+
+      await Task.Run(async () =>
       {
         while (true)
         {
@@ -36,17 +48,19 @@ namespace Concept.Vertical.ReadComponent
             DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
             TemperatureC = rng.Next(-20, 55),
             Summary = Summaries[rng.Next(Summaries.Length)]
-          });
+          }).ToList();
 
-          await _publisher.PublishAsync(new ClientMessage
+          if (active)
           {
-            Payload = newForecast,
-            RoutingKey = nameof(WeatherForecast),
-            ClientIds = new string[0]
-          }, _cancellationSource.Token);
+            await _publisher.PublishAsync(new ClientMessage
+            {
+              Payload = new WeatherUpdated { Forecasts = newForecast },
+              Type = nameof(WeatherUpdated),
+              ClientIds = new string[0]
+            }, _cancellationSource.Token);
+          }
         }
       }, cancellationToken);
-      return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

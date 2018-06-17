@@ -1,4 +1,5 @@
-﻿using Concept.Vertical.Web.SignalR;
+﻿using Concept.Vertical.Messaging.InMemory;
+using Concept.Vertical.Web.SignalR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,8 @@ namespace Concept.Vertical.Web
       services.AddMvc();
       services.AddSignalR();
       services.AddSingleton<IHostedService, HostedSubscriber>();
+      services.AddSingleton<IConnection>(new Connection());
+      services.AddSingleton<IMessageForwarder, MessageForwarder>();
       services.AddCors(options => options
         .AddPolicy("LocalSpa", cors => cors
           .AllowAnyOrigin()

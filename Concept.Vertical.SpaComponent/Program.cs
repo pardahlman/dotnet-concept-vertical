@@ -1,13 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Concept.Vertical.Messaging;
+using Concept.Vertical.Hosting;
+using Concept.Vertical.Messaging.Abstractions;
+using Concept.Vertical.Messaging.InMemory;
 using Concept.Vertical.ReadComponent;
-using Concept.Vertical.ReadComponent.Domain;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Concept.Vertical.SpaComponent
 {
@@ -29,30 +30,25 @@ namespace Concept.Vertical.SpaComponent
       WebHost.CreateDefaultBuilder(args)
         .UseStartup<SpaStartup>()
         .UseUrls("http://localhost:5000")
+        .ConfigureServices(collection =>
+        {
+          collection.AddSingleton<IMessageSubscriber, MessageSubscriber>();
+          collection.AddSingleton<IMessagePublisher, MessagePublisher>();
+          collection.AddSingleton<JsonSerializer>();
+        })
+        .RegisterLogicalComponent<WeatherUpdateService>()
         .Build();
 
     public static IWebHost CreateApplicationHost(string[] args) =>
       WebHost.CreateDefaultBuilder(args)
         .ConfigureServices(collection =>
         {
-          collection.AddSingleton<IMessagePublisher>(InMemoryMessageBus.Instance);
-          collection.AddSingleton<IMessageSubscriber>(InMemoryMessageBus.Instance);
-          collection.AddSingleton<ITypeIdentifierMap>(new TypeIdentifierMap(new Dictionary<string, Type> { { nameof(StopCommand), typeof(StopCommand) } }));
+          collection.AddSingleton<IMessageSubscriber, MessageSubscriber>();
+          collection.AddSingleton(new JsonSerializer{Converters = { new ClientMessageConverter()}, ContractResolver = new CamelCasePropertyNamesContractResolver()});
         })
         .UseStartup<Web.Startup>()
         .UseUrls("http://localhost:5001")
         .UseContentRoot(@"d:\Code\Github\dotnet-concept-vertical\Concept.Vertical.Web")
-        .RegisterLogicalComponent<WeatherUpdateService>()
-        .Build();
-
-    public static IHost CreateReadHost(string[] args) =>
-      new HostBuilder()
-        .ConfigureServices(collection =>
-        {
-          collection.AddSingleton<IMessagePublisher>(InMemoryMessageBus.Instance);
-          collection.AddSingleton<IMessageSubscriber>(InMemoryMessageBus.Instance);
-          collection.AddSingleton<IHostedService, WeatherUpdateService>();
-        })
         .Build();
   }
 }

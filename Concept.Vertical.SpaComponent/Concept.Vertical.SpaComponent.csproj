@@ -29,9 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Concept.Vertical.Hosting\Concept.Vertical.Hosting.csproj" />
+    <ProjectReference Include="..\Concept.Vertical.Messaging.InMemory\Concept.Vertical.Messaging.InMemory.csproj" />
     <ProjectReference Include="..\Concept.Vertical.ReadComponent\Concept.Vertical.ReadComponent.csproj" />
     <ProjectReference Include="..\Concept.Vertical.Web\Concept.Vertical.Web.csproj" />
-    <ProjectReference Include="..\Concept.Vertical\Concept.Vertical.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

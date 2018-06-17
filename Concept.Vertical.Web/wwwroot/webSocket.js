@@ -9,7 +9,7 @@ connection
   .start()
   .then(() => {
     connection.on('dataReceived', message => {
-      var callbacks = registrations[message.routingKey];
+      var callbacks = registrations[message.type];
       if(!callbacks){
         return;
       }
@@ -22,6 +22,6 @@ window.register = (routingKey, callback) => {
     registrations[routingKey].push(callback);
 };
 
-window.publish = (msg) => {
-    connection.invoke('publishData', msg);
+window.publish = (msg, routingKey) => {
+    connection.invoke('publishData', msg, routingKey);
 }

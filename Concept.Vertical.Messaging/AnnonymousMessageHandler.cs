@@ -1,6 +1,7 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿  using System;
+  using System.Threading;
+  using System.Threading.Tasks;
+  using Concept.Vertical.Messaging.Abstractions;
 
 namespace Concept.Vertical.Messaging
 {

@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Concept.Vertical.Messaging;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 
@@ -8,26 +6,16 @@ namespace Concept.Vertical.Web.SignalR
 {
   internal class ApplicationHub : Hub
   {
-    private readonly IMessagePublisher _publisher;
+    private readonly IMessageForwarder _forwarder;
 
-    public ApplicationHub(IMessagePublisher publisher)
+    public ApplicationHub(IMessageForwarder forwarder)
     {
-      _publisher = publisher;
+      _forwarder = forwarder;
     }
 
-    public async Task PublishData(JObject message, string messageTypeIdentifier)
+    public void PublishData(JObject message, string routingKey)
     {
-      await _publisher.PublishAsync(new UnparsedMessage
-      {
-        Payload = ConvertJsonToMessageBusSerialization(message),
-        PayloadType = messageTypeIdentifier
-      }, CancellationToken.None);
-    }
-
-    // TODO: formalize this, do nothing for now
-    private static object ConvertJsonToMessageBusSerialization(JObject message)
-    {
-      return message;
+      _forwarder.Publish(message, routingKey);
     }
   }
 }

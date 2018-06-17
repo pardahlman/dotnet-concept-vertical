@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Concept.Vertical.Messaging;
+using Concept.Vertical.Messaging.Abstractions;
+using Concept.Vertical.Web;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Concept.Vertical.Tests.Framework
@@ -28,15 +30,7 @@ namespace Concept.Vertical.Tests.Framework
     {
       return fixture
         .GetService<IMessageSubscriber>()
-        .SubscribeAsync<ClientMessage>((message, token) =>
-        {
-          if (message.Payload is TMessage typedMessage)
-          {
-            return interceptor(typedMessage, token);
-          }
-
-          return Task.CompletedTask;
-        });
+        .SubscribeAsync(interceptor);
     }
 
     public static Task Intercept<TIncomming, TOutgoing>(this IWebhostFixture fixture, Func<TIncomming, CancellationToken, Task<TOutgoing>> interceptor)

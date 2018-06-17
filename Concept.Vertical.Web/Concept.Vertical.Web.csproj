@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Concept.Vertical.Messaging.InMemory\Concept.Vertical.Messaging.InMemory.csproj" />
     <ProjectReference Include="..\Concept.Vertical\Concept.Vertical.csproj" />
   </ItemGroup>
 

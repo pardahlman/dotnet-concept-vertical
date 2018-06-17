@@ -1,9 +1,12 @@
 ﻿using System;
-using Concept.Vertical.Messaging;
+using Concept.Vertical.Messaging.Abstractions;
+using Concept.Vertical.Messaging.InMemory;
 using Concept.Vertical.Web;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Concept.Vertical.Tests.Framework
 {
@@ -20,6 +23,13 @@ namespace Concept.Vertical.Tests.Framework
     {
       VerticalUri = ResolveUniqueUnusedUrl();
 
+      _webHost = WebHost
+        .CreateDefaultBuilder<Startup>(new string[0])
+        .UseProjectContentRoot<Startup>()
+        .UseUrls("http://localhost:5001")
+        .ConfigureServices(RegisterTestSpecificContaingWebServices)
+        .Build();
+
       _spaHost = WebHost
         .CreateDefaultBuilder<TStartup>(new string[0])
         .UseProjectContentRoot<TStartup>()
@@ -27,21 +37,25 @@ namespace Concept.Vertical.Tests.Framework
         .ConfigureServices(RegisterTestSpecificServices)
         .Build();
 
-      _webHost = WebHost
-        .CreateDefaultBuilder<Startup>(new string[0])
-        .UseUrls("http://localhost:5001")
-        .ConfigureServices(RegisterTestSpecificServices)
-        .Build();
-
-      _webHost.Start();
       _spaHost.Start();
+      _webHost.Start();
     }
 
     private static void RegisterTestSpecificServices(IServiceCollection collection)
     {
       collection
-        .AddSingleton<IMessagePublisher>(InMemoryMessageBus.Instance)
-        .AddSingleton<IMessageSubscriber>(InMemoryMessageBus.Instance);
+        //.AddSingleton(new JsonSerializer { Converters = { new ClientMessageConverter() }, ContractResolver = new CamelCasePropertyNamesContractResolver() })
+        .AddSingleton<JsonSerializer>()
+        .AddSingleton<IMessagePublisher, MessagePublisher>()
+        .AddSingleton<IMessageSubscriber, MessageSubscriber>();
+    }
+
+    private static void RegisterTestSpecificContaingWebServices(IServiceCollection collection)
+    {
+      collection
+        .AddSingleton(new JsonSerializer { Converters = { new ClientMessageConverter() }, ContractResolver = new CamelCasePropertyNamesContractResolver() })
+        .AddSingleton<IMessagePublisher, MessagePublisher>()
+        .AddSingleton<IMessageSubscriber, MessageSubscriber>();
     }
 
     // TODO: Select port based on something
@@ -53,6 +67,6 @@ namespace Concept.Vertical.Tests.Framework
       _spaHost.Dispose();
     }
 
-    public object GetService(Type serviceType) => _webHost.Services.GetService(serviceType);
+    public object GetService(Type serviceType) => _spaHost.Services.GetService(serviceType);
   }
 }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { register, publish} from "./registerService";
 
-const sendStopCommand = (e) => {
+const sendToggleCommand = (e) => {
   console.log('stop');
-  publish({"stop": true});
+  publish({"stop": true}, 'ToggleWeatherUpdates');
 }
 
 export class App extends Component {
@@ -11,7 +11,7 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = { forecasts: [], loading: true };
-    register('WeatherForecast', forecasts =>  this.setState({forecasts: forecasts, loading: false}))
+    register('WeatherUpdated', weatherUpdated =>  this.setState({forecasts: weatherUpdated.Forecasts, loading: false}))
   }
 
   static renderForecastsTable(forecasts) {
@@ -27,11 +27,11 @@ export class App extends Component {
         </thead>
         <tbody>
         {forecasts.map(forecast =>
-          <tr key={forecast.dateFormatted}>
-            <td>{forecast.dateFormatted}</td>
-            <td>{forecast.temperatureC}</td>
-            <td>{forecast.temperatureF}</td>
-            <td>{forecast.summary}</td>
+          <tr key={forecast.DateFormatted}>
+            <td>{forecast.DateFormatted}</td>
+            <td>{forecast.TemperatureC}</td>
+            <td>{forecast.TemperatureF}</td>
+            <td>{forecast.Summary}</td>
           </tr>
         )}
         </tbody>
@@ -49,7 +49,7 @@ export class App extends Component {
     return (
       <div>
         <h1>Weather forecast!</h1>
-        <button onClick={sendStopCommand}>Stop</button>
+        <button onClick={sendToggleCommand}>Toggle updates</button>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>

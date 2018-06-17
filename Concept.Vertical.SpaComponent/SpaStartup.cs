@@ -29,10 +29,7 @@ namespace Concept.Vertical.SpaComponent
       app.UseSpa(spa =>
       {
         spa.Options.SourcePath = $"{env.ContentRootPath}\\ClientApp";
-        if (env.IsDevelopment())
-        {
-          spa.UseReactDevelopmentServer(npmScript: "start");
-        }
+        spa.UseReactDevelopmentServer(npmScript: "start");
       });
     }
   }
