@@ -1,5 +1,5 @@
 {
-  "name": "Concept.Vertical.CreateView",
+  "name": "Example.Todo.CreateView",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

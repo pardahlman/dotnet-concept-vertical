@@ -1,6 +1,6 @@
 {
-  "short_name": "Concept.Vertical.CreateView",
-  "name": "Concept.Vertical.CreateView",
+  "short_name": "Example.Todo.CreateView",
+  "name": "Example.Todo.CreateView",
   "icons": [
     {
       "src": "favicon.ico",

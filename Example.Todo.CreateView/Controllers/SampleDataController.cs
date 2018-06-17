@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Concept.Vertical.CreateView.Controllers
+namespace Example.Todo.CreateView.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller

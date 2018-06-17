@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Concept.Vertical.CreateView
+namespace Example.Todo.CreateView
 {
     public class Startup
     {

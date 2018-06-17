@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Concept.Vertical.CreateView
+namespace Example.Todo.CreateView
 {
     public class Program
     {
