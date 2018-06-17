@@ -12,7 +12,7 @@ export class NavMenu extends Component {
       <Navbar inverse fixedTop fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to={'/'}>Example.Todo.CreateTodoView</Link>
+            <Link to={'/'}>Concept.Vertical.CreateView</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

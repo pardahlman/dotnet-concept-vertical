@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Example.Todo.CreateTodoView.Pages
+namespace Concept.Vertical.CreateView.Pages
 {
     public class ErrorModel : PageModel
     {
