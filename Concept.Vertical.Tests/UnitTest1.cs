@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Concept.Vertical.Messaging;
 using Concept.Vertical.ReadComponent;
 using Concept.Vertical.ReadComponent.Domain;
 using Concept.Vertical.SpaComponent;
@@ -24,7 +25,30 @@ namespace Concept.Vertical.Tests
       var stopTask =  _webhostComponent.Intercept<ToggleWeatherUpdates>();
 
       var stopRecieved = new TaskCompletionSource<ToggleWeatherUpdates>();
-      await _webhostComponent.Intercept<ToggleWeatherUpdates>(stop => stopRecieved.TrySetResult(stop));
+      //await _webhostComponent.Intercept<ToggleWeatherUpdates>(stop => stopRecieved.TrySetResult(stop));
+      await _webhostComponent.Intercept<ToggleWeatherUpdates, ClientMessage>((updates, token) => Task.FromResult(new ClientMessage
+      {
+        ClientIds = new List<string>(),
+        Type = nameof(WeatherUpdated),
+        Payload = new WeatherUpdated
+        {
+          Forecasts = new List<WeatherUpdateService.WeatherForecast>
+          {
+            new WeatherUpdateService.WeatherForecast
+            {
+              DateFormatted = "2020-01-01",
+              Summary = "Blazing cold",
+              TemperatureC = -38
+            },
+            new WeatherUpdateService.WeatherForecast
+            {
+              DateFormatted = "2020-01-02",
+              Summary = "Blazing cold",
+              TemperatureC = -38
+            },
+          }
+        }
+      }));
 
       await _webhostComponent.Intercept<ToggleWeatherUpdates, WeatherStopped>((stopCommand, token) => Task.FromResult(new WeatherStopped()));
 

@@ -1,20 +1,27 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { Layout } from './components/Layout';
-import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
-import { Counter } from './components/Counter';
 
 export default class App extends Component {
-  displayName = App.name
+  constructor(){
+    super();
+    this.state = {title: ''}
+  }
+
+  onChange(event){
+    this.setState({title: event.target.value});
+  }
+
+  handleChange(event) {
+    if(event.keyCode() !== 13) {
+      return;
+    }
+    window.publish("createTodo", this.state.title);
+  }
 
   render() {
     return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetchdata' component={FetchData} />
-      </Layout>
+      <div>
+        <input onChange={e => this.onChange(e)} onKeyDown={e => this.handleChange(e)} value={this.state.title}/>
+      </div>
     );
   }
 }
