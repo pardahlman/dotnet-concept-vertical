@@ -12,7 +12,7 @@ namespace Concept.Vertical.Messaging.InMemory
   public class MessagePublisher : IMessagePublisher
   {
     private readonly JsonSerializer _jsonSerializer;
-    private const string _jsonContent = "application/json";
+    private const string JsonContent = "application/json";
 
     public MessagePublisher(JsonSerializer jsonSerializer)
     {
@@ -26,7 +26,7 @@ namespace Concept.Vertical.Messaging.InMemory
       var props = new BasicProperties
       {
         Type = routingKey,
-        ContentType = _jsonContent,
+        ContentType = JsonContent,
         Headers = new Dictionary<string, string>(),
         MessageId = Guid.NewGuid().ToString()
       };

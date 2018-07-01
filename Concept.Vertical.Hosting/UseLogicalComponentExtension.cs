@@ -39,11 +39,29 @@ namespace Concept.Vertical.Hosting
       }
     }
 
+    public static IHostBuilder RegisterLogicalComponent<TLogicalComponent>(this IHostBuilder builder,
+      Action<IServiceCollection> componentServices = null)
+      where TLogicalComponent : class, ILogicalComponent
+    {
+      builder
+        .ConfigureServices((context, collection) => collection
+          .AddSingleton<IHostedService>(applicationProvider =>
+          {
+            var serviceCollection = new ServiceCollection()
+              .AddSingleton<TLogicalComponent>()
+              .AddSingleton(applicationProvider.GetService<IMessagePublisher>())
+              .AddSingleton(applicationProvider.GetService<IMessageSubscriber>());
+            componentServices?.Invoke(serviceCollection);
+            return new DisposableHostedService<TLogicalComponent>(serviceCollection);
+          }));
+      return builder;
+    }
+
     public static IWebHostBuilder RegisterLogicalComponent<TLogicalComponent>(this IWebHostBuilder builder, Action<IServiceCollection> componentServices = null)
       where TLogicalComponent : class, ILogicalComponent
     {
       builder
-        .ConfigureServices(applicationCollection=> applicationCollection
+        .ConfigureServices(applicationCollection => applicationCollection
           .AddSingleton<IHostedService>(applicationProvider =>
           {
             var serviceCollection = new ServiceCollection()

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.1.0" />
+    <PackageReference Include="RawRabbit.Operations.Publish" Version="2.0.0-rc5" />
+    <PackageReference Include="RawRabbit.Operations.Subscribe" Version="2.0.0-rc5" />
+    <PackageReference Include="RawRabbit.Operations.Tools" Version="2.0.0-rc5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Concept.Vertical.Messaging\Concept.Vertical.Messaging.csproj" />
+  </ItemGroup>
+
+</Project>

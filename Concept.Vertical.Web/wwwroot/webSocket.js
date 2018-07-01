@@ -7,7 +7,8 @@ const connection = new signalR.HubConnectionBuilder()
 
 connection
   .start()
-  .then(() => {
+    .then(() => {
+
     connection.on('dataReceived', message => {
       var callbacks = registrations[message.type];
       if(!callbacks){

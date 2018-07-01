@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Concept.Vertical.Hosting\Concept.Vertical.Hosting.csproj" />
     <ProjectReference Include="..\Concept.Vertical.Messaging\Concept.Vertical.Messaging.csproj" />
     <ProjectReference Include="..\Concept.Vertical\Concept.Vertical.csproj" />
     <ProjectReference Include="..\Example.Todo.Domain\Example.Todo.Domain.csproj" />
