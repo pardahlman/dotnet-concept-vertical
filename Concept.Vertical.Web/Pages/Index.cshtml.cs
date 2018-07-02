@@ -15,13 +15,11 @@ namespace Concept.Vertical.Web.Pages
     {
       spaBootstraps = spaBootstraps.ToList();
       ComponentDomIds = spaBootstraps.Select(b => b.DomElement).ToList().AsReadOnly();
-      ComponentScriptSrc = spaBootstraps.SelectMany(b => b.ResourceUris).ToList().AsReadOnly();
+      ComponentScriptSrc = spaBootstraps
+        .SelectMany(b => b.ScriptResources
+          .Select(uri => uri.IsAbsoluteUri ? uri : new Uri(b.BaseUrl, uri.OriginalString)))
+        .ToList()
+        .AsReadOnly();
     }
-
-    //public void OnGet()
-    //{
-    //  ComponentDomIds = new[] { "root" };
-    //  ComponentScriptSrc = new[] {"http://localhost:5000/static/js/bundle.js"};
-    //}
   }
 }

@@ -1,6 +1,9 @@
-﻿using Concept.Vertical.Messaging.InMemory;
+﻿using System.Collections.Generic;
+using Concept.Vertical.Messaging.InMemory;
+using Concept.Vertical.Web.Bootstrap;
 using Concept.Vertical.Web.SignalR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
@@ -9,19 +12,29 @@ namespace Concept.Vertical.Web
 {
   public class Startup
   {
+    public Startup(IConfiguration configuration)
+    {
+      Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();
       services.AddSignalR();
       services.AddSingleton<IHostedService, HostedSubscriber>();
       services.AddSingleton<IConnection>(new Connection());
-      services.AddSingleton<IMessageForwarder, MessageForwarder>();
+      services.AddSingleton<IMessageForwarder, RabbitMqMessageForwarder>();
+      services.AddSingleton<IEnumerable<SpaBootstrap>>(Configuration.GetSection("components").Get<SpaBootstrap[]>());
       services.AddCors(options => options
         .AddPolicy("LocalSpa", cors => cors
           .AllowAnyOrigin()
           .AllowAnyHeader()
           .AllowCredentials()
           .AllowAnyMethod()));
+
+
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)

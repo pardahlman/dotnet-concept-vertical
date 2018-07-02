@@ -20,6 +20,6 @@ namespace Concept.Vertical.Web.Bootstrap
     }
 
     public static IWebHostBuilder RenderSpaComponent(this IWebHostBuilder builder, string domElement, params Uri[] resourceUris) 
-      => builder.RenderSpaComponent(new SpaBootstrap {DomElement = domElement, ResourceUris = resourceUris});
+      => builder.RenderSpaComponent(new SpaBootstrap {DomElement = domElement, ScriptResources = resourceUris});
   }
 }

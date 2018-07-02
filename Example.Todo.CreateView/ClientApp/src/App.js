@@ -11,10 +11,10 @@ export default class App extends Component {
   }
 
   handleChange(event) {
-    if(event.keyCode() !== 13) {
+    if(event.keyCode !== 13) {
       return;
     }
-    window.publish("createTodo", this.state.title);
+    window.publish({title: this.state.title}, "example.todo.domain.commands", "createtodo");
   }
 
   render() {

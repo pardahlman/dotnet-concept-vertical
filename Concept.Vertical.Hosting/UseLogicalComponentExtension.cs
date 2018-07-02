@@ -39,7 +39,7 @@ namespace Concept.Vertical.Hosting
       }
     }
 
-    public static IHostBuilder RegisterLogicalComponent<TLogicalComponent>(this IHostBuilder builder,
+    public static IHostBuilder UseLogicalComponent<TLogicalComponent>(this IHostBuilder builder,
       Action<IServiceCollection> componentServices = null)
       where TLogicalComponent : class, ILogicalComponent
     {
@@ -57,7 +57,7 @@ namespace Concept.Vertical.Hosting
       return builder;
     }
 
-    public static IWebHostBuilder RegisterLogicalComponent<TLogicalComponent>(this IWebHostBuilder builder, Action<IServiceCollection> componentServices = null)
+    public static IWebHostBuilder UseLogicalComponent<TLogicalComponent>(this IWebHostBuilder builder, Action<IServiceCollection> componentServices = null)
       where TLogicalComponent : class, ILogicalComponent
     {
       builder

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 using Concept.Vertical.Messaging.InMemory;
 using Newtonsoft.Json.Linq;
 using RawRabbit;
@@ -8,7 +9,7 @@ namespace Concept.Vertical.Web.SignalR
 {
   public interface IMessageForwarder
   {
-    void Publish(JObject body, string exchange, string routingKey);
+    Task PublishAsync(JObject body, string exchange, string routingKey);
   }
 
   public class MessageForwarder : IMessageForwarder
@@ -22,9 +23,10 @@ namespace Concept.Vertical.Web.SignalR
       _channel = brokerConnection.CreateModel();
     }
 
-    public void Publish(JObject body, string exchange, string routingKey)
+    public Task PublishAsync(JObject body, string exchange, string routingKey)
     {
       _channel.BasicPublish(routingKey, new BasicProperties(), Encoding.UTF8.GetBytes(body.ToString()));
+      return Task.CompletedTask;
     }
   }
 
@@ -37,9 +39,9 @@ namespace Concept.Vertical.Web.SignalR
       _busClient = busClient;
     }
 
-    public void Publish(JObject body, string exchange, string routingKey)
+    public async Task PublishAsync(JObject body, string exchange, string routingKey)
     {
-      _busClient.BasicPublishAsync(new BasicPublishConfiguration
+      await _busClient.BasicPublishAsync(new BasicPublishConfiguration
       {
         RoutingKey = routingKey,
         BasicProperties = new RabbitMQ.Client.Framing.BasicProperties(),

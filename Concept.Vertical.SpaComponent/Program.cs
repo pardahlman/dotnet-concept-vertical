@@ -36,7 +36,7 @@ namespace Concept.Vertical.SpaComponent
           collection.AddSingleton<IMessagePublisher, MessagePublisher>();
           collection.AddSingleton<JsonSerializer>();
         })
-        .RegisterLogicalComponent<WeatherUpdateService>()
+        .UseLogicalComponent<WeatherUpdateService>()
         .Build();
 
     public static IWebHost CreateApplicationHost(string[] args) =>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 
 namespace Concept.Vertical.Web.SignalR
@@ -12,9 +13,9 @@ namespace Concept.Vertical.Web.SignalR
       _forwarder = forwarder;
     }
 
-    public void PublishData(JObject message, string exchangeName, string routingKey)
+    public Task PublishData(JObject message, string exchangeName, string routingKey)
     {
-      _forwarder.Publish(message, exchangeName, routingKey);
+      return _forwarder.PublishAsync(message, exchangeName, routingKey);
     }
   }
 }

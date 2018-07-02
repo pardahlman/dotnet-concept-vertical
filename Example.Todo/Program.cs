@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Concept.Vertical.Hosting;
 using Concept.Vertical.Messaging.InMemory;
+using Concept.Vertical.Messaging.RabbitMQ;
 using Concept.Vertical.Web.Bootstrap;
 using Example.Todo.BusinessComponent;
 using Example.Todo.ListComponent;
@@ -16,32 +17,12 @@ namespace Example.Todo
   {
     public static async Task Main(string[] args)
     {
-      var config = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json")
-        .Build();
-
       var writeHost = new HostBuilder()
-        .RegisterLogicalComponent<TodoLogicalComponent>(c => c.AddTodoServcies())
-        .UseInMemoryMessaging()
+        .UseLogicalComponent<TodoLogicalComponent>(c => c.AddTodoServcies())
+        .UseRabbitMq()
         .Build();
 
-      var listConfig = config.GetSection("todoList").Get<WebComponentConfiguration>();
-      var listHost = WebHost
-        .CreateDefaultBuilder<ListView.Startup>(args)
-        .UseUrls(listConfig.BaseUrl.ToString())
-        .UseInMemoryMessaging()
-        .RegisterLogicalComponent<ListLogicalComponent>()
-        .Build();
-
-      var webFrameworkHost = WebHost
-        .CreateDefaultBuilder<Concept.Vertical.Web.Startup>(args)
-        .UseInMemoryMessaging()
-        .RenderSpaComponent(listConfig.DomElement, listConfig.GetScriptUris())
-        .Build();
-
-      await Task.WhenAll(writeHost.StartAsync(), listHost.StartAsync());
-      await webFrameworkHost.RunAsync();
-      await Task.WhenAll(writeHost.StopAsync(), listHost.StopAsync());
+      await writeHost.RunAsync();
     }
   }
 }

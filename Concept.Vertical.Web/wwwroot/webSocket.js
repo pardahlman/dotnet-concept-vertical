@@ -23,6 +23,6 @@ window.register = (routingKey, callback) => {
     registrations[routingKey].push(callback);
 };
 
-window.publish = (msg, routingKey) => {
-    connection.invoke('publishData', msg, routingKey);
+window.publish = (msg, exchange, routingKey) => {
+    connection.invoke('publishData', msg, exchange, routingKey);
 }
