@@ -26,17 +26,30 @@ namespace Example.Todo.BusinessComponent
     public async Task StartAsync(CancellationToken ct = default)
     {
       await _subscriber.SubscribeAsync<CreateTodo>(OnCreateTodo, ct);
+      await _subscriber.SubscribeAsync<DeleteTodo>(OnDeleteTodo, ct);
     }
 
     public Task StopAsync(CancellationToken ct = default)
     {
-      throw new NotImplementedException();
+      return Task.CompletedTask;
     }
 
     private async Task OnCreateTodo(CreateTodo todo, CancellationToken ct)
     {
       var newTodo = await _todoRepo.AddAsync(todo.Title);
       await _publisher.PublishAsync(new TodoCreated(newTodo), ct);
+    }
+
+    private async Task OnDeleteTodo(DeleteTodo todo, CancellationToken ct)
+    {
+      var existingTodo = await _todoRepo.GetAsync(todo.TodoId, ct);
+      if (existingTodo == default)
+      {
+        return;
+      }
+
+      await _todoRepo.RemoveAsync(existingTodo.Id, ct);
+      await _publisher.PublishAsync(new TodoDeleted{Todo = existingTodo}, ct);
     }
   }
 }

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Concept.Vertical.Messaging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Concept.Vertical.Messaging.InMemory
+namespace Concept.Vertical.Web.SignalR
 {
   public class ClientMessageConverter : JsonConverter
   {

@@ -17,5 +17,10 @@ namespace Concept.Vertical.Web.SignalR
     {
       return _forwarder.PublishAsync(message, exchangeName, routingKey);
     }
+
+    public override Task OnConnectedAsync()
+    {
+      return Clients.Caller.SendAsync("connectionEstablished", Context.ConnectionId);
+    }
   }
 }

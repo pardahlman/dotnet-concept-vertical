@@ -1,6 +1,8 @@
 ﻿using Concept.Vertical.Messaging.RabbitMQ;
+using Concept.Vertical.Web.SignalR;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using RawRabbit.Serialization;
 
 namespace Concept.Vertical.Web
 {
@@ -15,7 +17,12 @@ namespace Concept.Vertical.Web
     {
       return WebHost.CreateDefaultBuilder(args)
         .UseStartup<Startup>()
-        .UseRabbitMq();
+        .UseRabbitMq(ioc => ioc.AddSingleton<ISerializer>(
+            new JsonSerializer(new Newtonsoft.Json.JsonSerializer
+            {
+              Converters = {new ClientMessageConverter()}
+            }
+          )));
     }
   }
 }

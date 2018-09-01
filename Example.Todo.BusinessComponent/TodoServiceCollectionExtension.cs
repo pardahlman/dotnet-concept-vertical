@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Example.Todo.BusinessComponent
 {
-  public static class TodoComponentServiceCollectionExtension
+  public static class TodoServiceCollectionExtension
   {
     public static IServiceCollection AddTodoServcies(this IServiceCollection collection)
     {

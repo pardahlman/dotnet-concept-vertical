@@ -7,6 +7,8 @@ namespace Example.Todo.ListComponent
   {
     public List<TodoViewModel> Todos { get; set; }
     public ushort ItemsLeft { get; set; }
+    public uint PageIndex { get; set; }
+    public uint NumberOfPages { get; set; }
 
     public ListViewModel()
     {

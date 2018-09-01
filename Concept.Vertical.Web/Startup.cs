@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Concept.Vertical.Web
@@ -22,7 +24,12 @@ namespace Concept.Vertical.Web
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();
-      services.AddSignalR();
+      services
+        .AddSignalR()
+        .AddJsonProtocol(o => o.PayloadSerializerSettings = new JsonSerializerSettings
+        {
+          ContractResolver = new CamelCasePropertyNamesContractResolver()
+        });
       services.AddSingleton<IHostedService, HostedSubscriber>();
       services.AddSingleton<IConnection>(new Connection());
       services.AddSingleton<IMessageForwarder, RabbitMqMessageForwarder>();
