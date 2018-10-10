@@ -10,6 +10,8 @@ using Newtonsoft.Json.Serialization;
 
 namespace Concept.Vertical.Tests.Framework
 {
+  using Concept.Vertical.Web.SignalR;
+
   public interface IWebhostFixture : IServiceProvider { }
 
   public class WebhostFixture<TStartup> : IDisposable, IWebhostFixture where TStartup : class

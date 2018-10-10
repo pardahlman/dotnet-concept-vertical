@@ -12,6 +12,8 @@ using Newtonsoft.Json.Serialization;
 
 namespace Concept.Vertical.SpaComponent
 {
+  using Concept.Vertical.Web.SignalR;
+
   public class Program
   {
     public static async Task Main(string[] args)
