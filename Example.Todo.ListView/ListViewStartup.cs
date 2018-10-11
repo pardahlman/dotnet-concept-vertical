@@ -7,9 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Example.Todo.ListView
 {
-  public class Startup
+  public class ListViewStartup
   {
-    public Startup(IConfiguration configuration)
+    public ListViewStartup(IConfiguration configuration)
     {
       Configuration = configuration;
     }
@@ -34,12 +34,8 @@ namespace Example.Todo.ListView
       app.UseMvc();
       app.UseSpa(spa =>
       {
-        spa.Options.SourcePath = "ClientApp";
-
-        if (env.IsDevelopment())
-        {
-          spa.UseReactDevelopmentServer(npmScript: "start");
-        }
+        spa.Options.SourcePath = $"{spa.ApplicationBuilder.ApplicationServices.GetService<IHostingEnvironment>().ContentRootPath}\\ClientApp";
+        spa.UseReactDevelopmentServer(npmScript: "start");
       });
     }
   }

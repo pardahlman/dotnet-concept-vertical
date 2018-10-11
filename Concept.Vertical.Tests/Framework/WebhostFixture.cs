@@ -28,8 +28,8 @@ namespace Concept.Vertical.Tests.Framework
       _webHost = WebHost
         .CreateDefaultBuilder<Startup>(new string[0])
         .UseProjectContentRoot<Startup>()
-        .UseUrls("http://localhost:5001")
-        .ConfigureServices(RegisterTestSpecificContaingWebServices)
+        .UseUrls("http://localhost:5000")
+        .ConfigureServices(RegisterTestSpecificContainerWebServices)
         .Build();
 
       _spaHost = WebHost
@@ -52,7 +52,7 @@ namespace Concept.Vertical.Tests.Framework
         .AddSingleton<IMessageSubscriber, MessageSubscriber>();
     }
 
-    private static void RegisterTestSpecificContaingWebServices(IServiceCollection collection)
+    private static void RegisterTestSpecificContainerWebServices(IServiceCollection collection)
     {
       collection
         .AddSingleton(new JsonSerializer { Converters = { new ClientMessageConverter() }, ContractResolver = new CamelCasePropertyNamesContractResolver() })
@@ -61,7 +61,7 @@ namespace Concept.Vertical.Tests.Framework
     }
 
     // TODO: Select port based on something
-    private Uri ResolveUniqueUnusedUrl() => new Uri("http://localhost:5000", UriKind.Absolute);
+    private Uri ResolveUniqueUnusedUrl() => new Uri("http://localhost:5005", UriKind.Absolute);
 
     public void Dispose()
     {

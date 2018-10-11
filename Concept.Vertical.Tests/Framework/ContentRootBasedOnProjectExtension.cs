@@ -7,7 +7,7 @@ namespace Concept.Vertical.Tests.Framework
   {
     public static IWebHostBuilder UseProjectContentRoot<TTypeInProject>(this IWebHostBuilder builder)
     {
-      var projectName = typeof(TTypeInProject).Assembly.GetName().Name;
+      var projectName = typeof(TTypeInProject).Namespace;
       return builder.UseSolutionRelativeContentRoot(projectName);
     }
   }

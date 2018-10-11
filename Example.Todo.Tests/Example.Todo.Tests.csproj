@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Concept.Vertical.Tests\Concept.Vertical.Tests.csproj" />
+    <ProjectReference Include="..\Example.Todo.ListComponent\Example.Todo.ListComponent.csproj" />
+    <ProjectReference Include="..\Example.Todo.ListView\Example.Todo.ListView.csproj" />
+  </ItemGroup>
+
+</Project>
